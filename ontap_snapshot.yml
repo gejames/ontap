@@ -1,0 +1,19 @@
+---
+- name: Create snapshot
+  hosts: ontap 
+  connection: local
+
+ 
+  tasks: 
+    - name: Create snapshot
+      na_ontap_snapshot:
+        state: present
+        snapshot: "{{ ansible_date_time.iso8601 }}.ansible"
+        volume: svm0_data
+        comment: "Managed by Ansible"
+        vserver: svm0
+        username: "{{ netapp_username }}"
+        password: "{{ netapp_password }}"
+        hostname: "{{ netapp_hostname }}"
+        https: true
+        validate_certs: false

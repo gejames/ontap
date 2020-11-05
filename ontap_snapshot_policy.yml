@@ -1,0 +1,21 @@
+---
+- name: Create snapshot policy
+  hosts: ontap 
+  connection: local
+
+ 
+  tasks: 
+    - name: Ensure daily snapshot policy is enforced
+      na_ontap_snapshot_policy:
+        state: present
+        name: daily
+        schedule: daily
+        prefix: daily
+        count: 30
+        enabled: true
+        vserver: svm0
+        username: "{{ netapp_username }}"
+        password: "{{ netapp_password }}"
+        hostname: "{{ netapp_hostname }}"
+        https: true
+        validate_certs: false

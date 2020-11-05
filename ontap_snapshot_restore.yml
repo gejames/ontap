@@ -1,0 +1,40 @@
+---
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  collections:
+    - netapp.ontap
+
+
+  tasks:
+    - name: Info
+      na_ontap_info:
+        state: info
+        vserver: "{{ vserver }}"
+        gather_subset: snapshot_info
+        <<: *login
+      register: ontap
+
+    - debug:
+        msg: "{{ ontap }}"
+
+    - set_fact:
+       time: "{{ time }} + ['{{ ontap.ontap_info.snapshot_info[item].access_time }}' ]"
+      with_items: "{{ ontap.ontap_info.snapshot_info }}"
+      when:
+        - ontap.ontap_info.snapshot_info[item].volume == volname
+
+    - set_fact:
+        newest: "{{ time|max }}"
+
+    - set_fact:
+        snapshot: "{{ ontap.ontap_info.snapshot_info[item].name }}"
+      with_items: "{{ ontap.ontap_info.snapshot_info }}"
+      when:
+        - ontap.ontap_info.snapshot_info[item].access_time == newest
+        - ontap.ontap_info.snapshot_info[item].volume == volname
+
+    - name: Restore snapshot
+      na_ontap_command:
+        command: "['snap restore -vserver {{ vserver }} -volume {{ volname }} -snapshot {{ snapshot }}']"
+        <<: *login
