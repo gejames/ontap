@@ -8,7 +8,7 @@
     - name: Create snapshot
       na_ontap_snapshot:
         state: present
-        snapshot: "{{ ansible_date_time.iso8601 }}.ansible"
+        snapshot: "{{ snapshot_name }}"
         volume: svm0_data
         comment: "Managed by Ansible"
         vserver: svm0
