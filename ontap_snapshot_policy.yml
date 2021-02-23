@@ -1,7 +1,10 @@
 ---
-- name: Create snapshot policy
+- name: Enforce snapshot policy
   hosts: ontap 
   connection: local
+  
+  collections:
+    -  netapp.ontap
 
  
   tasks: 
@@ -10,7 +13,6 @@
         state: present
         name: daily
         schedule: daily
-        prefix: daily
         count: 30
         enabled: true
         vserver: svm0

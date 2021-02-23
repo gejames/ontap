@@ -2,7 +2,9 @@
 - name: Create snapshot
   hosts: ontap 
   connection: local
-
+  
+  collections:
+    - netapp.ontap
  
   tasks: 
     - name: Create snapshot
