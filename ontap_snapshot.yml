@@ -20,7 +20,7 @@
         snapshot: "{{ snapshot_name }}"
         volume: "{{ ontap_volume }}"
         comment: "{{ ontap_comment }}"
-        vserver: "{{ ntap_vserver }}"
+        vserver: "{{ ontap_vserver }}"
         username: "{{ netapp_username }}"
         password: "{{ netapp_password }}"
         hostname: "{{ netapp_hostname }}"
