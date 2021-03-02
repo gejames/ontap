@@ -16,7 +16,7 @@
   tasks: 
     - name: Create snapshot
       na_ontap_snapshot:
-        state: " {{ ontap_vol_state }}"
+        state: "{{ ontap_vol_state }}"
         snapshot: "{{ snapshot_name }}"
         volume: "{{ ontap_volume }}"
         comment: "{{ ontap_comment }}"
