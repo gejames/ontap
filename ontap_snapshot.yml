@@ -2,6 +2,13 @@
 - name: Create snapshot
   hosts: ontap 
   connection: local
+
+  vars:
+    ontap_vserver: svm0
+    ontap_volume: svm0_data
+    ontap_vol_state: present
+    ontap_comment: "Managed by Ansible"
+
   
   collections:
     - netapp.ontap
@@ -9,11 +16,11 @@
   tasks: 
     - name: Create snapshot
       na_ontap_snapshot:
-        state: present
+        state: " {{ ontap_vol_state }}"
         snapshot: "{{ snapshot_name }}"
-        volume: svm0_data
-        comment: "Managed by Ansible"
-        vserver: svm0
+        volume: "{{ ontap_volume }}"
+        comment: "{{ ontap_comment }}"
+        vserver: "{{ ntap_vserver }}"
         username: "{{ netapp_username }}"
         password: "{{ netapp_password }}"
         hostname: "{{ netapp_hostname }}"
